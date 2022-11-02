@@ -12,6 +12,7 @@
 
 
 ## Conclusions
+
 ###Postive Factors -
 - GrLivArea(0.216) : Greater living area definitely will lead to higher selling price hence its has highest weight
 - TotalBsmtSF(0.107) : Hihger basement square feet area is surely likeable and hence better Saleprice
@@ -22,6 +23,7 @@
 - GarageType_NA(-0.030) : If a house doesnt have garage , it definitely pull the house price which is what suggested by our model as it is the feature with highest -ve impact on Sale Price
 - FireplaceQu_NA(-0.020) : In US temparatures can go very low as well, so not having a fireplace definitely is a negative factor in terms of demand for a house
 - PropAge(-0.020) : Higher property age means the house is older hence pulling down the sale price makes sense
+
 ## Technologies Used
 - Python - version 1.1.3
 - matplotlib - version 3.3.2
