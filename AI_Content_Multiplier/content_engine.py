@@ -3,7 +3,7 @@ from openai import OpenAI
 
 logging.basicConfig(level=logging.INFO)
 
-client = OpenAI()
+client = OpenAI(api_key='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')
 
 MODEL = "gpt-4o-mini"
 
