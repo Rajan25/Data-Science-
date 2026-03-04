@@ -3,19 +3,19 @@ from openai import OpenAI
 
 logging.basicConfig(level=logging.INFO)
 
-client = OpenAI(api_key='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')
-
 MODEL = "gpt-4o-mini"
 
 
-def extract_ideas(transcript):
+def extract_ideas(transcript, api_key):
+
+    client = OpenAI(api_key=api_key)
 
     logging.info("Extracting key ideas")
 
     prompt = f"""
-Extract the 5 most important ideas from this content.
+Extract the 5 most important ideas from the following content.
 
-Return as bullet points.
+Return them as bullet points.
 
 Content:
 {transcript[:5000]}
@@ -29,12 +29,16 @@ Content:
     return response.choices[0].message.content
 
 
-def generate_hooks(ideas):
+def generate_hooks(ideas, api_key):
+
+    client = OpenAI(api_key=api_key)
 
     logging.info("Generating viral hooks")
 
     prompt = f"""
-Generate 5 viral hooks for social media.
+Generate 5 high-engagement hooks for social media.
+
+Hooks should create curiosity and make people want to read further.
 
 Ideas:
 {ideas}
@@ -48,17 +52,19 @@ Ideas:
     return response.choices[0].message.content
 
 
-def linkedin_post(title, description, transcript):
+def linkedin_post(title, description, transcript, api_key):
+
+    client = OpenAI(api_key=api_key)
 
     logging.info("Generating LinkedIn summary")
 
     prompt = f"""
-Create a LinkedIn post summarizing this content.
+Create a LinkedIn post summarizing this video.
 
-RULES
+STRICT RULES
 - Use only the information provided
-- Do not add outside knowledge
-- Do not mention transcript or speaker
+- Do not add external knowledge
+- Do not say "from the transcript" or "the video says"
 
 TITLE
 {title}
@@ -74,11 +80,11 @@ FORMAT
 Hook
 
 Key Takeaways
-• idea
-• idea
-• idea
-• idea
-• idea
+• point
+• point
+• point
+• point
+• point
 
 Closing insight
 """
@@ -91,17 +97,19 @@ Closing insight
     return response.choices[0].message.content
 
 
-def twitter_thread(title, description, transcript):
+def twitter_thread(title, description, transcript, api_key):
+
+    client = OpenAI(api_key=api_key)
 
     logging.info("Generating Twitter thread")
 
     prompt = f"""
-Create a Twitter thread summarizing this content.
+Create a Twitter thread summarizing this video.
 
 RULES
-- Only use the information provided
-- Do not add external knowledge
-- Do not mention transcript or speaker
+- Use only the information provided
+- Do not invent information
+- Each tweet should contain one insight
 
 TITLE
 {title}
@@ -114,13 +122,13 @@ CONTENT
 
 FORMAT
 
-Tweet1 Hook
-Tweet2 Insight
-Tweet3 Insight
-Tweet4 Insight
-Tweet5 Insight
-Tweet6 Insight
-Tweet7 Closing takeaway
+Tweet 1 - Hook
+Tweet 2 - Insight
+Tweet 3 - Insight
+Tweet 4 - Insight
+Tweet 5 - Insight
+Tweet 6 - Insight
+Tweet 7 - Closing thought
 """
 
     response = client.chat.completions.create(
@@ -131,18 +139,20 @@ Tweet7 Closing takeaway
     return response.choices[0].message.content
 
 
-def instagram_carousel(ideas):
+def instagram_carousel(ideas, api_key):
+
+    client = OpenAI(api_key=api_key)
 
     logging.info("Generating Instagram carousel")
 
     prompt = f"""
 Create a 6-slide Instagram carousel.
 
-Slide1 Hook
-Slide2-5 insights
-Slide6 CTA
+Slide 1: Hook
+Slide 2-5: Insights
+Slide 6: Call to action
 
-Ideas
+Ideas:
 {ideas}
 """
 
