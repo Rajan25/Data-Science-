@@ -1,0 +1,9 @@
+streamlit
+yt-dlp
+faster-whisper
+openai
+sentence-transformers
+scikit-learn
+numpy
+tqdm
+regex
