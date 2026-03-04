@@ -22,17 +22,14 @@ st.set_page_config(
 st.title("AI Content Multiplier")
 
 
-def get_youtube_video_id(url):
+# -----------------------------
+# USER INPUTS
+# -----------------------------
 
-    pattern = r"(?:v=|youtu\.be/)([A-Za-z0-9_-]{11})"
-
-    match = re.search(pattern, url)
-
-    if match:
-        return match.group(1)
-
-    return None
-
+api_key = st.text_input(
+    "Enter your OpenAI API Key",
+    type="password"
+)
 
 url = st.text_input("Paste YouTube URL")
 
@@ -48,6 +45,24 @@ language_option = st.selectbox(
 )
 
 
+# -----------------------------
+# Extract YouTube ID
+# -----------------------------
+def get_youtube_video_id(url):
+
+    pattern = r"(?:v=|youtu\.be/)([A-Za-z0-9_-]{11})"
+
+    match = re.search(pattern, url)
+
+    if match:
+        return match.group(1)
+
+    return None
+
+
+# -----------------------------
+# Video Preview
+# -----------------------------
 if url:
 
     video_id = get_youtube_video_id(url)
@@ -67,7 +82,14 @@ if url:
             st.video(url)
 
 
+# -----------------------------
+# MAIN PIPELINE
+# -----------------------------
 if st.button("Generate Content"):
+
+    if not api_key:
+        st.error("Please enter your OpenAI API key.")
+        st.stop()
 
     progress = st.progress(0)
 
@@ -87,13 +109,17 @@ if st.button("Generate Content"):
 
     st.write("Transcribing video...")
 
-    transcript, segments = get_transcript(video_file, language_option)
+    transcript, segments = get_transcript(
+        video_file,
+        language_option,
+        api_key
+    )
 
     progress.progress(40)
 
     st.write("Extracting ideas...")
 
-    ideas = extract_ideas(transcript)
+    ideas = extract_ideas(transcript, api_key)
 
     progress.progress(55)
 
@@ -102,7 +128,7 @@ if st.button("Generate Content"):
 
     st.write("Generating hooks...")
 
-    hooks = generate_hooks(ideas)
+    hooks = generate_hooks(ideas, api_key)
 
     st.subheader("Hooks")
     st.write(hooks)
@@ -111,7 +137,7 @@ if st.button("Generate Content"):
 
     st.write("Generating LinkedIn post...")
 
-    linkedin = linkedin_post(title, description, transcript)
+    linkedin = linkedin_post(title, description, transcript, api_key)
 
     st.subheader("LinkedIn Post")
     st.write(linkedin)
@@ -120,7 +146,7 @@ if st.button("Generate Content"):
 
     st.write("Generating Twitter thread...")
 
-    twitter = twitter_thread(title, description, transcript)
+    twitter = twitter_thread(title, description, transcript, api_key)
 
     st.subheader("Twitter Thread")
     st.write(twitter)
@@ -129,7 +155,7 @@ if st.button("Generate Content"):
 
     st.write("Generating Instagram carousel...")
 
-    carousel = instagram_carousel(ideas)
+    carousel = instagram_carousel(ideas, api_key)
 
     st.subheader("Instagram Carousel")
     st.write(carousel)
