@@ -6,8 +6,6 @@ logging.basicConfig(level=logging.INFO)
 
 model = WhisperModel("base", compute_type="int8")
 
-client = OpenAI()
-
 
 def map_language(language_option):
 
@@ -22,10 +20,12 @@ def map_language(language_option):
     return mapping.get(language_option)
 
 
-def translate_to_english(text):
+def translate_to_english(text, api_key):
+
+    client = OpenAI(api_key=api_key)
 
     prompt = f"""
-Translate this content into English.
+Translate the following content into English.
 
 Do not summarize.
 Do not add information.
@@ -41,7 +41,7 @@ Do not add information.
     return response.choices[0].message.content
 
 
-def get_transcript(video_path, language_option):
+def get_transcript(video_path, language_option, api_key):
 
     language_code = map_language(language_option)
 
@@ -61,6 +61,9 @@ def get_transcript(video_path, language_option):
 
     transcript_original = " ".join(transcript_parts)
 
-    transcript_english = translate_to_english(transcript_original)
+    transcript_english = translate_to_english(
+        transcript_original,
+        api_key
+    )
 
     return transcript_english, segments
