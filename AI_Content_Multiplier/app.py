@@ -170,9 +170,18 @@ if st.button("Generate Content"):
 
     progress.progress(95)
 
+    st.write("Downloading video for clip generation...")
+
+    video_file = download_video(url)
+
+    progress.progress(97)
+
+
     st.write("Generating short clips...")
 
     short_videos = generate_short_clips(video_file, clips)
+
+    
 
     st.subheader("Generated Shorts")
 
@@ -183,4 +192,5 @@ if st.button("Generate Content"):
 
 
     st.success("Content generation complete")
+
 
