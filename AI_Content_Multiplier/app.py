@@ -108,11 +108,7 @@ if st.button("Generate Content"):
 
     st.write("Transcribing video...")
 
-    transcript, segments = get_transcript(
-        video_file,
-        language_option,
-        api_key
-    )
+    transcript, segments = get_transcript(audio_file, language_option, api_key)
 
     progress.progress(40)
 
@@ -187,3 +183,4 @@ if st.button("Generate Content"):
 
 
     st.success("Content generation complete")
+
