@@ -1,8 +1,7 @@
 import streamlit as st
 import re
 
-from video_downloader import download_video
-from transcriber import get_transcript
+from video_downloader import download_audio, download_videofrom transcriber import get_transcript
 from content_engine import (
     extract_ideas,
     generate_hooks,
@@ -95,7 +94,7 @@ if st.button("Generate Content"):
 
     st.write("Downloading video...")
 
-    video_file, title, description = download_video(url)
+    audio_file, title, description = download_audio(url)
 
     progress.progress(15)
 
@@ -109,11 +108,7 @@ if st.button("Generate Content"):
 
     st.write("Transcribing video...")
 
-    transcript, segments = get_transcript(
-        video_file,
-        language_option,
-        api_key
-    )
+    transcript, segments = get_transcript(audio_file, language_option, api_key)
 
     progress.progress(40)
 
@@ -175,9 +170,18 @@ if st.button("Generate Content"):
 
     progress.progress(95)
 
+    st.write("Downloading video for clip generation...")
+
+    video_file = download_video(url)
+
+    progress.progress(97)
+
+
     st.write("Generating short clips...")
 
     short_videos = generate_short_clips(video_file, clips)
+
+    
 
     st.subheader("Generated Shorts")
 
@@ -186,4 +190,7 @@ if st.button("Generate Content"):
 
     progress.progress(100)
 
+
     st.success("Content generation complete")
+
+
