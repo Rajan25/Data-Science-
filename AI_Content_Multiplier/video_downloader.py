@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 
 def download_audio(url):
 
-    logging.info("Downloading audio for transcription")
+    logging.info("Downloading audio...")
 
     ydl_opts = {
         "format": "bestaudio/best",
@@ -15,16 +15,22 @@ def download_audio(url):
         "noplaylist": True,
         "geo_bypass": True,
         "nocheckcertificate": True,
+        "ignoreerrors": False,
+        "retries": 5,
         "http_headers": {
-            "User-Agent": "Mozilla/5.0"
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/122.0.0.0 Safari/537.36"
+            )
         },
         "postprocessors": [
             {
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
-                "preferredquality": "192"
+                "preferredquality": "192",
             }
-        ]
+        ],
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -39,7 +45,7 @@ def download_audio(url):
 
 def download_video(url):
 
-    logging.info("Downloading video for clip generation")
+    logging.info("Downloading video for clip generation...")
 
     ydl_opts = {
         "format": "best[height<=720]",
@@ -48,9 +54,14 @@ def download_video(url):
         "noplaylist": True,
         "geo_bypass": True,
         "nocheckcertificate": True,
+        "retries": 5,
         "http_headers": {
-            "User-Agent": "Mozilla/5.0"
-        }
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/122.0.0.0 Safari/537.36"
+            )
+        },
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
