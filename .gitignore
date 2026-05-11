@@ -1,0 +1,13 @@
+.env
+.env.*
+node_modules/
+.next/
+dist/
+build/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

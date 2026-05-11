@@ -1,0 +1,20 @@
+{
+  "name": "linkedin-automation",
+  "private": true,
+  "version": "0.1.0",
+  "description": "LinkedIn post and carousel automation platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace @lia/web run dev",
+    "dev:api": "npm --workspace @lia/api run dev",
+    "dev:worker": "npm --workspace @lia/worker run dev",
+    "db:ensure:api": "npm --workspace @lia/api run db:ensure",
+    "db:migrate:api": "npm --workspace @lia/api run db:migrate",
+    "build": "npm run --workspaces --if-present build",
+    "lint": "npm run --workspaces --if-present lint",
+    "test": "npm run --workspaces --if-present test"
+  }
+}
