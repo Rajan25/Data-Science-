@@ -2,7 +2,9 @@ import { Redis } from "ioredis";
 import { Queue } from "bullmq";
 import { queryWithContext } from "../../db/context.js";
 
-const redisConnection = new Redis(process.env.REDIS_URL ?? "redis://127.0.0.1:6379");
+const redisConnection = new Redis(process.env.REDIS_URL ?? "redis://127.0.0.1:6379", {
+  maxRetriesPerRequest: null
+});
 const contentQueue = new Queue("content-jobs", { connection: redisConnection });
 
 export async function enqueueJob(params: {

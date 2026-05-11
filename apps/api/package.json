@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/main.ts",
+    "dev:once": "tsx src/main.ts",
     "db:ensure": "tsx src/db/ensure-database.ts",
     "db:migrate": "tsx src/db/migrate.ts",
     "build": "tsc -p tsconfig.json",

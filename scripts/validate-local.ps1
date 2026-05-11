@@ -41,7 +41,7 @@ $cmdInner =
   'set "JWT_SECRET=' + (Escape-CmdDoubleQuote $jwt) + '" && ' +
   'set "PORT=' + (Escape-CmdDoubleQuote $port) + '" && ' +
   'cd /d "' + (Escape-CmdDoubleQuote $root) + '" && ' +
-  'npm --workspace @lia/api run dev'
+  'npm --workspace @lia/api run dev:once'
 
 $api = Start-Process -FilePath "cmd.exe" `
   -ArgumentList "/c", $cmdInner `
@@ -57,7 +57,7 @@ $workerCmd =
   'set "DATABASE_URL=' + (Escape-CmdDoubleQuote $db) + '" && ' +
   'set "REDIS_URL=' + (Escape-CmdDoubleQuote $redis) + '" && ' +
   'cd /d "' + (Escape-CmdDoubleQuote $root) + '" && ' +
-  'npm --workspace @lia/worker run dev'
+  'npm --workspace @lia/worker run dev:once'
 
 Write-Host "== 2b) Start worker (background job) =="
 $worker = Start-Process -FilePath "cmd.exe" `

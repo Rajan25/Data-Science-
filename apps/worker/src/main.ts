@@ -2,8 +2,12 @@ import { Queue, Worker } from "bullmq";
 import { Redis } from "ioredis";
 import { getPool } from "./db.js";
 
-const connection = new Redis(process.env.REDIS_URL ?? "redis://127.0.0.1:6379");
-const queue = new Queue("content-jobs", { connection });
+const redisUrl = process.env.REDIS_URL ?? "redis://127.0.0.1:6379";
+const redisOpts = { maxRetriesPerRequest: null };
+// Queue and Worker must not share one connection (Worker uses blocking Redis commands).
+const queueConnection = new Redis(redisUrl, redisOpts);
+const workerConnection = new Redis(redisUrl, redisOpts);
+const queue = new Queue("content-jobs", { connection: queueConnection });
 
 const worker = new Worker(
   "content-jobs",
@@ -58,7 +62,7 @@ const worker = new Worker(
       client.release();
     }
   },
-  { connection }
+  { connection: workerConnection }
 );
 
 async function bootstrap() {
