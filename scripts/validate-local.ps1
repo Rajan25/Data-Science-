@@ -167,10 +167,9 @@ catch {
 }
 finally {
   if ($worker -and $worker.Id) {
-    & taskkill.exe /PID $worker.Id /T /F 2>$null | Out-Null
+    Stop-Process -Id $worker.Id -Force -ErrorAction SilentlyContinue
   }
   if ($api -and $api.Id) {
-    # Kill process tree (cmd + node/tsx) on Windows
-    & taskkill.exe /PID $api.Id /T /F 2>$null | Out-Null
+    Stop-Process -Id $api.Id -Force -ErrorAction SilentlyContinue
   }
 }
